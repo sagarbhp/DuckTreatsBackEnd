@@ -11,6 +11,7 @@ require("../Model/schedularModel");
 
 //Routes
 const publicPostRoutes = require("../Routes/publicPostRoutes");
+const publicGetRoutes = require("../Routes/publicGetRoutes");
 
 //------------------------ Server Config -----/
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(publicPostRoutes);
+app.use(publicGetRoutes);
 
 //------------------------- Health Route ------/
 app.get("/", (req, res) => {

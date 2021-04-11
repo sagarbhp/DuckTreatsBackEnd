@@ -72,4 +72,23 @@ describe("API testing with Mocha and Chai", function () {
         });
     });
   });
+
+  //------------------------- Test 2: /popular-food (GET) route-------------------/
+  describe("Testing the /popular-food route", () => {
+    it("Should return an object with total and and data field", (done) => {
+      chai
+        .request(app)
+        .get("/popular-food")
+        .end((err, response) => {
+          //test on err
+          chaiShould.equal(err, null);
+          //test on response
+          response.should.have.status(200);
+          response.body.should.be.a("object");
+          response.body.data.should.be.a("array");
+          response.body.total.should.be.a("number");
+          done();
+        });
+    });
+  });
 });
