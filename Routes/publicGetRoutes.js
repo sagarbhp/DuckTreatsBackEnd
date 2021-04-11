@@ -73,4 +73,40 @@ publicGetRoutes.get("/data", async (req, res) => {
   }
 });
 
+publicGetRoutes.get("/paginated-data/:page/:perpage", async (req, res) => {
+  console.log("received request to get paginated data");
+  const limit = 2000;
+  let { page, perpage } = req.params;
+  let skip = 0;
+  let output = {};
+  try {
+    page = parseInt(page);
+    perpage = parseInt(perpage);
+
+    if (perpage > limit) {
+      perpage = limit;
+    }
+
+    if (page < 1) {
+      page = 1;
+    }
+    skip = (page - 1) * perpage;
+
+    let data = await Input.aggregate([
+      { $sort: { _id: -1 } },
+      { $skip: skip },
+      { $limit: perpage },
+    ]);
+    output.data = data;
+    //counting the total number of documents
+    let count = await Input.countDocuments({});
+    output.total = count;
+    res.status(200).send(output);
+    console.log("successfully completed /paginated-data request");
+  } catch (err) {
+    console.log("Encountered error in /paginated-data path", err);
+    res.status(500).sendStatus({ message: err.message });
+  }
+});
+
 module.exports = publicGetRoutes;
