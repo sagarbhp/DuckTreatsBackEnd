@@ -9,10 +9,15 @@ const cors = require("cors");
 require("../Model/inputModel");
 require("../Model/schedularModel");
 
+//Routes
+const publicPostRoutes = require("../Routes/publicPostRoutes");
+
 //------------------------ Server Config -----/
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+app.use(publicPostRoutes);
 
 //------------------------- Health Route ------/
 app.get("/", (req, res) => {
