@@ -60,4 +60,17 @@ publicGetRoutes.get("/data-by-country", async (req, res) => {
   }
 });
 
+publicGetRoutes.get("/data", async (req, res) => {
+  console.log("received request to get all data");
+
+  try {
+    let data = await Input.find({});
+    res.status(200).send(data);
+    console.log("successfully completed /data request");
+  } catch (err) {
+    console.log("Encountered Error in /data path", err);
+    res.status(500).send({ message: err.message });
+  }
+});
+
 module.exports = publicGetRoutes;

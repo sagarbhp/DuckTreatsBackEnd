@@ -109,4 +109,22 @@ describe("API testing with Mocha and Chai", function () {
         });
     });
   });
+
+  //   ---------------------- Test 4: /data (GET)route --------------------------/
+  describe("Testing the /data route", () => {
+    it("Should return all data from inputs collection as an array", (done) => {
+      chai
+        .request(app)
+        .get("/data")
+        .end((err, response) => {
+          //test on err
+          chaiShould.equal(err, null);
+          //tests on response
+          response.should.have.status(200);
+          response.body.should.be.a("array");
+          response.body.length.should.be.eq(2);
+          done();
+        });
+    });
+  });
 });
