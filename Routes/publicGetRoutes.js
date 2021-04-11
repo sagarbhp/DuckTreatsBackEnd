@@ -32,4 +32,32 @@ publicGetRoutes.get("/popular-food", async (req, res) => {
   }
 });
 
+publicGetRoutes.get("/data-by-country", async (req, res) => {
+  console.log("received request to get data by country from database");
+  let output = {};
+  try {
+    //setting up aggregation pipeline to get data based on country
+    let country = await Input.aggregate([
+      {
+        $group: {
+          _id: "$country",
+          location: { $addToSet: "$location" },
+          count: { $sum: 1 },
+          food: { $addToSet: "$food" },
+          ducksFed: { $sum: { $add: "$duckCount" } },
+        },
+      },
+      { $sort: { ducksFed: -1 } },
+    ]);
+    output.data = country;
+    //counting the total number of document
+    let count = await Input.countDocuments({});
+    output.total = count;
+    res.status(200).send(output);
+  } catch (err) {
+    console.log("Encountered error in /data-by-country", err);
+    res.status(500).send({ message: err.message });
+  }
+});
+
 module.exports = publicGetRoutes;

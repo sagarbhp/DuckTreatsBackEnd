@@ -91,4 +91,22 @@ describe("API testing with Mocha and Chai", function () {
         });
     });
   });
+
+  //------------------------ Test 3: /data-by-country (GET) route -----------------/
+  describe("Testing the /data-by-country route", () => {
+    it("should return an object with total and data field", (done) => {
+      chai
+        .request(app)
+        .get("/data-by-country")
+        .end((err, response) => {
+          //test on err
+          chaiShould.equal(err, null);
+          response.should.have.status(200);
+          response.body.should.be.a("object");
+          response.body.data.should.be.a("array");
+          response.body.total.should.be.a("number");
+          done();
+        });
+    });
+  });
 });
