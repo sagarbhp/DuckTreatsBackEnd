@@ -1,0 +1,19 @@
+{
+  "name": "DuckTreatsBack",
+  "version": "1.0.0",
+  "description": "An api to take in duck feeding data and store in database ",
+  "main": "index.js",
+  "author": "Sagar Roy",
+  "license": "MIT",
+  "dependencies": {
+    "chai-http": "^4.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2"
+  }
+}
